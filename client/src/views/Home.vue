@@ -1,16 +1,16 @@
 <script setup>
-import { ref } from 'vue';
-import LoginModal from '../components/LoginModal.vue';
+import { ref } from 'vue'
+import LoginModal from '../components/LoginModal.vue'
 
-const showLoginModal = ref(false);
+const showLoginModal = ref(false)
 
 const openLoginModal = () => {
-  showLoginModal.value = true;
-};
+  showLoginModal.value = true
+}
 
 const closeLoginModal = () => {
-  showLoginModal.value = false;
-};
+  showLoginModal.value = false
+}
 
 const features = [
   {
@@ -33,7 +33,7 @@ const features = [
     description: '24/7 access to emergency contacts and healthcare helplines.',
     icon: '🚑',
   },
-];
+]
 </script>
 
 <template>
@@ -51,21 +51,6 @@ const features = [
               <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Access your scan results, get AI-powered insights, and connect with healthcare professionals - all in one secure platform.
               </p>
-              <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div class="rounded-md shadow">
-                  <button
-                    @click="openLoginModal"
-                    class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-                  >
-                    Login
-                  </button>
-                </div>
-                <div class="mt-3 sm:mt-0 sm:ml-3">
-                  <RouterLink to="/register" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10">
-                    Register
-                  </RouterLink>
-                </div>
-              </div>
             </div>
           </main>
         </div>

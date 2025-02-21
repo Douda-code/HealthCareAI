@@ -8,13 +8,12 @@ defineProps({
 
 const logout = () => {
   // Add logout logic here
-  window.location.href = '/';
-};
+  window.location.href = '/'
+}
 </script>
 
 <template>
   <aside class="bg-white rounded-lg shadow-md p-4">
-    
     <nav class="space-y-2">
       <RouterLink to="/dashboard" class="block py-2 px-4 rounded hover:bg-gray-100 transition-colors duration-200" :class="{'bg-indigo-600 text-white': activeSection === 'dashboard', 'text-gray-600 hover:bg-gray-100': activeSection !== 'dashboard'}">
         Dashboard
@@ -28,8 +27,8 @@ const logout = () => {
       <RouterLink to="/consultation" class="block py-2 px-4 rounded hover:bg-gray-100 transition-colors duration-200" :class="{'bg-indigo-600 text-white': activeSection === 'consultation', 'text-gray-600 hover:bg-gray-100': activeSection !== 'consultation'}">
         Physician Consultation
       </RouterLink>
-      <RouterLink to="/resources" class="block py-2 px-4 rounded hover:bg-gray-100 transition-colors duration-200" :class="{'bg-indigo-600 text-white': activeSection === 'resources', 'text-gray-600 hover:bg-gray-100': activeSection !== 'resources'}">
-        Resources
+      <RouterLink to="/make-appointment" class="block py-2 px-4 rounded hover:bg-gray-100 transition-colors duration-200" :class="{'bg-indigo-600 text-white': activeSection === 'make-appointment', 'text-gray-600 hover:bg-gray-100': activeSection !== 'make-appointment'}">
+        Make Lab Appointment
       </RouterLink>
       <RouterLink to="/account-settings" class="block py-2 px-4 rounded hover:bg-gray-100 transition-colors duration-200" :class="{'bg-indigo-600 text-white': activeSection === 'account-settings', 'text-gray-600 hover:bg-gray-100': activeSection !== 'account-settings'}">
         Account Settings
