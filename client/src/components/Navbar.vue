@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useRouter } from 'vue-router';
 import LoginModal from './LoginModal.vue';
@@ -11,6 +11,8 @@ const showLoginModal = ref(false);
 const notifications = ref([
   { title: 'New Message from Dr. Smith', date: '2024-03-19' },
   { title: 'AI Analysis Report Ready', date: '2024-03-14' },
+  { title: 'MRI Results Available', date: '2024-03-15' },
+  { title: 'Consultation Reminder', date: '2024-03-20' },
 ]);
 
 const showNotifications = ref(false);
@@ -65,7 +67,7 @@ onUnmounted(() => {
       <div class="flex justify-between h-16">
         <div class="flex">
           <RouterLink to="/" class="flex items-center">
-            <span class="text-2xl font-bold text-indigo-600">HealthCare</span>
+            <span class="text-4xl font-bold text-indigo-600">liFeliNe</span>
           </RouterLink>
         </div>
         <div class="flex items-center">
@@ -155,58 +157,24 @@ onUnmounted(() => {
               </div>
             </div>
           </template>
-          <!-- Show login/register when not authenticated -->
+          <!-- Show sign in/sign up when not authenticated -->
           <template v-else>
             <button
               @click="openLoginModal"
               class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
             >
-              Login
+              Sign In
             </button>
             <RouterLink
               to="/register"
               class="bg-white hover:bg-gray-100 text-indigo-500 font-bold py-2 px-4 rounded border border-indigo-500 focus:outline-none focus:shadow-outline"
             >
-              Register
+              Sign Up
             </RouterLink>
           </template>
         </div>
       </div>
     </div>
-    <!-- Bottom Navigation -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-center h-16 items-center">
-          <div class="flex space-x-8">
-            <RouterLink
-              to="/about"
-              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900"
-            >
-              About Us
-            </RouterLink>
-            <RouterLink
-              to="/resources"
-              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900"
-            >
-              Services
-            </RouterLink>
-            <RouterLink
-              to="/contact"
-              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900"
-            >
-              Contact Us
-            </RouterLink>
-            <RouterLink
-              to="/emergency"
-              class="inline-flex items-center px-1 pt-1 text-sm font-medium text-red-600 hover:text-red-700"
-            >
-              Emergency
-            </RouterLink>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Login Modal -->
     <LoginModal v-if="showLoginModal" @close="closeLoginModal" />
   </nav>

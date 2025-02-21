@@ -1,16 +1,19 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
+import ScanDetailsPopup from './ScanDetailsPopup.vue'
 
 const scanResults = ref([
-  { id: 1, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-15', type: 'MRI', status: 'Completed', details: 'Detailed view of MRI scan' },
-  { id: 2, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-20', type: 'CT Scan', status: 'Pending', details: 'Detailed view of CT Scan' },
-  { id: 3, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-14', type: 'X-Ray', status: 'Completed', details: 'Detailed view of X-Ray scan' }
+  { id: 1, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-15', type: 'MRI', status: 'Completed', details: 'Detailed view of MRI scan', patientName: 'John Doe', aiReport: 'Normal', confidenceScore: '0.95' },
+  { id: 2, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-20', type: 'CT Scan', status: 'Pending', details: 'Detailed view of CT Scan', patientName: 'Jane Smith', aiReport: 'Inconclusive', confidenceScore: '0.80' },
+  { id: 3, thumbnail: 'https://via.placeholder.com/150', date: '2024-03-14', type: 'X-Ray', status: 'Completed', details: 'Detailed view of X-Ray scan', patientName: 'Alice Johnson', aiReport: 'Fracture detected', confidenceScore: '0.90' }
 ])
 
 const searchQuery = ref('')
 const sortBy = ref('date')
 const sortOrder = ref('asc')
+const selectedScanResult = ref(null)
+const isModalOpen = ref(false)
 
 const filteredAndSortedResults = computed(() => {
   let results = scanResults.value
@@ -42,6 +45,16 @@ const toggleSortOrder = (column) => {
     sortOrder.value = 'asc'
   }
 }
+
+const openModal = (scan) => {
+  selectedScanResult.value = { ...scan }
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  selectedScanResult.value = null
+}
 </script>
 
 <template>
@@ -65,7 +78,7 @@ const toggleSortOrder = (column) => {
             <span v-if="sortBy === 'status'">{{ sortOrder === 'asc' ? '🔼' : '🔽' }}</span>
           </th>
           <th scope="col" class="relative px-6 py-3">
-            <span class="sr-only">Download</span>
+            <span class="sr-only">Actions</span>
           </th>
         </tr>
       </thead>
@@ -95,9 +108,9 @@ const toggleSortOrder = (column) => {
             </span>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <RouterLink :to="`/scans/${result.id}`" class="text-indigo-600 hover:text-indigo-800 mr-2">
+            <button @click="openModal(result)" class="text-indigo-600 hover:text-indigo-800 mr-2">
               View Details
-            </RouterLink>
+            </button>
             <a href="#" class="text-indigo-600 hover:text-indigo-800">
               Download
             </a>
@@ -105,5 +118,10 @@ const toggleSortOrder = (column) => {
         </tr>
       </tbody>
     </table>
+    <ScanDetailsPopup :scanResult="selectedScanResult" :showModal="isModalOpen" @close="closeModal" />
   </div>
 </template>
+
+<style scoped>
+/* Add any additional styles for the scan results listing here */
+</style>
