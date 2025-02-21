@@ -1,0 +1,29 @@
+{
+  "name": "healthcare-platform",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "workspaces": [
+    "admin",
+    "client"
+  ],
+  "scripts": {
+    "dev": "npm run dev:client",
+    "dev:admin": "npm run dev -w admin",
+    "dev:client": "npm run dev -w client",
+    "build": "npm run build:client && npm run build:admin",
+    "build:admin": "npm run build -w admin",
+    "build:client": "npm run build -w client",
+    "preview": "npm run preview:client",
+    "preview:admin": "npm run preview -w admin",
+    "preview:client": "npm run preview -w client"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1"
+  }
+}
