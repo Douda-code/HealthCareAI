@@ -2,10 +2,12 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useRouter } from 'vue-router';
+import { useDarkModeStore } from '../stores/darkMode';
 import LoginModal from './LoginModal.vue';
 
 const router = useRouter();
-const isAuthenticated = ref(false); // This should be managed by your auth store
+const darkModeStore = useDarkModeStore();
+const isAuthenticated = ref(false);
 const showLoginModal = ref(false);
 
 const notifications = ref([
@@ -42,7 +44,6 @@ const logout = () => {
 const profilePicture = ref('https://via.placeholder.com/150');
 const userName = ref('John Doe');
 
-// Click away functionality
 const handleClickOutside = (event) => {
   if (showNotifications.value && !event.target.closest('.notifications-icon')) {
     showNotifications.value = false;
@@ -62,21 +63,54 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <nav class="bg-white shadow-lg">
+  <nav class="bg-white dark:bg-gray-800 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
-        <div class="flex">
-          <RouterLink to="/" class="flex items-center">
-            <span class="text-4xl font-bold text-indigo-600">liFeliNe</span>
-          </RouterLink>
-        </div>
+        <RouterLink to="/" class="flex items-center">
+          <span class="text-4xl font-bold text-indigo-600 dark:text-indigo-400">liFeliNe</span>
+        </RouterLink>
         <div class="flex items-center">
+          <!-- Dark Mode Toggle -->
+          <button
+            @click="darkModeStore.toggleDarkMode"
+            class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 mr-4"
+            :title="darkModeStore.isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          >
+            <svg
+              v-if="!darkModeStore.isDark"
+              class="w-6 h-6 text-gray-600 dark:text-gray-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+            <svg
+              v-else
+              class="w-6 h-6 text-yellow-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"
+              />
+            </svg>
+          </button>
           <!-- Show these elements only when authenticated -->
           <template v-if="isAuthenticated">
             <div class="relative notifications-icon mr-4">
               <button
                 @click="toggleNotifications"
-                class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="bg-indigo-500 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538.214 1.055.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
@@ -84,27 +118,24 @@ onUnmounted(() => {
               </button>
               <div
                 v-if="showNotifications"
-                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
               >
-                <div class="block px-4 py-2 text-sm font-medium text-gray-900">
+                <div class="block px-4 py-2 text-sm font-medium text-gray-900 dark:text-gray-100">
                   Notifications
                 </div>
-                <div class="mt-1 text-sm text-gray-500">
+                <div class="mt-1">
                   <ul class="space-y-2">
                     <li
                       v-for="notification in notifications"
                       :key="notification.title"
-                      class="flex items-center justify-between p-2 bg-gray-50 rounded"
+                      class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded"
                     >
                       <div>
-                        <h3 class="font-medium">{{ notification.title }}</h3>
-                        <p class="text-sm text-gray-500">
+                        <h3 class="font-medium text-gray-900 dark:text-gray-100">{{ notification.title }}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                           {{ notification.date }}
                         </p>
                       </div>
-                      <button class="text-indigo-600 hover:text-indigo-800">
-                        Mark as Read
-                      </button>
                     </li>
                   </ul>
                 </div>
@@ -113,7 +144,7 @@ onUnmounted(() => {
             <div class="relative profile-icon">
               <button
                 @click="toggleProfileDropdown"
-                class="flex items-center text-gray-600 hover:text-gray-800 focus:outline-none focus:shadow-outline"
+                class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100 focus:outline-none focus:shadow-outline"
               >
                 <div class="flex-shrink-0 h-10 w-10">
                   <img
@@ -125,32 +156,32 @@ onUnmounted(() => {
               </button>
               <div
                 v-if="showProfileDropdown"
-                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50"
               >
-                <div class="block px-4 py-2 text-sm text-gray-700 font-semibold">
+                <div class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 font-semibold">
                   {{ userName }}
                 </div>
                 <RouterLink
                   to="/dashboard"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Dashboard
                 </RouterLink>
                 <RouterLink
                   to="/notifications"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Notifications
                 </RouterLink>
                 <RouterLink
                   to="/account-settings"
-                  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Account Settings
                 </RouterLink>
                 <button
                   @click="logout"
-                  class="block px-4 py-2 text-sm text-red-600 hover:text-red-800 w-full text-left"
+                  class="block px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 w-full text-left"
                 >
                   Logout
                 </button>
@@ -161,13 +192,13 @@ onUnmounted(() => {
           <template v-else>
             <button
               @click="openLoginModal"
-              class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+              class="bg-indigo-500 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
             >
               Sign In
             </button>
             <RouterLink
               to="/register"
-              class="bg-white hover:bg-gray-100 text-indigo-500 font-bold py-2 px-4 rounded border border-indigo-500 focus:outline-none focus:shadow-outline"
+              class="bg-white dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 text-indigo-500 dark:text-indigo-400 font-bold py-2 px-4 rounded border border-indigo-500 dark:border-indigo-400 focus:outline-none focus:shadow-outline"
             >
               Sign Up
             </RouterLink>
@@ -179,15 +210,3 @@ onUnmounted(() => {
     <LoginModal v-if="showLoginModal" @close="closeLoginModal" />
   </nav>
 </template>
-
-<style scoped>
-.notifications-icon .absolute {
-  top: 100%;
-  right: 0;
-}
-
-.profile-icon .absolute {
-  top: 100%;
-  right: 0;
-}
-</style>

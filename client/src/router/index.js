@@ -10,9 +10,9 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/Dashboard.vue'),
+      path: '/activity-history',
+      name: 'activity-history',
+      component: () => import('../views/ActivityHistory.vue'),
       meta: { requiresAuth: true },
     },
     {
@@ -76,12 +76,13 @@ const router = createRouter({
       component: () => import('../views/Notifications.vue'),
       meta: { requiresAuth: true },
     },
-    {
+			  {
       path: '/make-appointment',
       name: 'make-appointment',
       component: () => import('../views/MakeAppointment.vue'),
       meta: { requiresAuth: true },
-    },
+    }
+
   ],
 });
 

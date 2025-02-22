@@ -1,3 +1,23 @@
+
+<script setup>
+import NavSidebar from '../components/NavSidebar.vue'
+import { ref } from 'vue'
+
+const activeSection = ref('make-appointment')
+</script>
+
+<style scoped>
+/* Add padding to the body to make room for the bottom navigation bar */
+body {
+  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
+}
+
+/* Ensure the main content area is padded appropriately */
+main {
+  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
+}
+</style>
+
 <template>
   <div class="min-h-screen bg-gray-100">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -42,21 +62,3 @@
   </div>
 </template>
 
-<script setup>
-import NavSidebar from '../components/NavSidebar.vue'
-import { ref } from 'vue'
-
-const activeSection = ref('make-appointment')
-</script>
-
-<style scoped>
-/* Add padding to the body to make room for the bottom navigation bar */
-body {
-  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
-}
-
-/* Ensure the main content area is padded appropriately */
-main {
-  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
-}
-</style>

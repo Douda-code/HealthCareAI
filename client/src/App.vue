@@ -1,26 +1,51 @@
 <script setup>
 import Navbar from './components/Navbar.vue'
 import BottomNavBar from './components/BottomNavBar.vue'
+import { useDarkModeStore } from './stores/darkMode'
+import { onMounted, watch } from 'vue'
+
+const darkModeStore = useDarkModeStore()
+
+// Initialize dark mode based on system preference
+onMounted(() => {
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  if (prefersDark) {
+    darkModeStore.toggleDarkMode()
+  }
+})
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen min-w-full flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
     <Navbar />
-    <main class="py-8">
+    <main class="flex-grow w-full">
       <RouterView />
     </main>
     <BottomNavBar />
   </div>
 </template>
 
-<style scoped>
-/* Add padding to the body to make room for the bottom navigation bar */
-body {
-  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
 
-/* Ensure the main content area is padded appropriately */
+#app {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 main {
-  padding-bottom: 6rem; /* Adjust the padding based on the height of the bottom navigation bar */
+  flex: 1;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
 }
 </style>
